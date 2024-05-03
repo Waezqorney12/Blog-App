@@ -1,4 +1,5 @@
 import 'package:blog_application/core/theme/app_pallete.dart';
+import 'package:blog_application/features/auth/presentation/routes/app_routes.dart';
 import 'package:blog_application/features/auth/presentation/widgets/auth_field.dart';
 import 'package:blog_application/features/auth/presentation/widgets/auth_gradient_button.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,14 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    nameController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,15 +58,20 @@ class _SignUpPageState extends State<SignUpPage> {
                 obscureText: true,
               ),
               const Padding(padding: EdgeInsets.symmetric(vertical: 20), child: AuthButton(buttonName: 'Sign Up')),
-              RichText(
-                text: TextSpan(text: 'Don\'t have account? ', style: Theme.of(context).textTheme.titleMedium, children: [
-                  TextSpan(
-                      text: 'Sign In',
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium
-                          ?.copyWith(color: AppPallete.gradient2, fontWeight: FontWeight.bold))
-                ]),
+              GestureDetector(
+                onTap: () => Navigator.pushReplacement(context, Routes.login()),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Already have account? ', style: Theme.of(context).textTheme.titleMedium),
+                    const SizedBox(width: 5),
+                    Text('Sign In',
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium
+                            ?.copyWith(color: AppPallete.gradient2, fontWeight: FontWeight.bold)),
+                  ],
+                ),
               )
             ],
           ),
