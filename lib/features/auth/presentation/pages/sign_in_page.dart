@@ -50,7 +50,16 @@ class _SignInPageState extends State<SignInPage> {
                 hint: 'Password',
                 obscureText: true,
               ),
-              const Padding(padding: EdgeInsets.symmetric(vertical: 20), child: AuthButton(buttonName: 'Sign In')),
+              Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  child: AuthButton(
+                    buttonName: 'Sign In',
+                    onTap: () {
+                      if (formKey.currentState!.validate()) {
+                        
+                      }
+                    },
+                  )),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

@@ -2,7 +2,8 @@ import 'package:blog_application/core/theme/app_pallete.dart';
 import 'package:flutter/material.dart';
 
 class AuthButton extends StatelessWidget {
-  const AuthButton({super.key, required this.buttonName});
+  const AuthButton({super.key, required this.buttonName, required this.onTap});
+  final void Function() onTap;
   final String buttonName;
 
   @override
@@ -13,7 +14,7 @@ class AuthButton extends StatelessWidget {
               colors: [AppPallete.gradient1, AppPallete.gradient2], begin: Alignment.bottomLeft, end: Alignment.topRight),
           borderRadius: BorderRadius.circular(10)),
       child: ElevatedButton(
-          onPressed: () {},
+          onPressed: onTap,
           style: ElevatedButton.styleFrom(
               backgroundColor: AppPallete.transparentColor,
               shadowColor: AppPallete.transparentColor,

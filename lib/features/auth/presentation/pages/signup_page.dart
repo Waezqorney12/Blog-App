@@ -1,8 +1,11 @@
 import 'package:blog_application/core/theme/app_pallete.dart';
+import 'package:blog_application/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:blog_application/features/auth/presentation/routes/app_routes.dart';
 import 'package:blog_application/features/auth/presentation/widgets/auth_field.dart';
 import 'package:blog_application/features/auth/presentation/widgets/auth_gradient_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -57,22 +60,36 @@ class _SignUpPageState extends State<SignUpPage> {
                 hint: 'Password',
                 obscureText: true,
               ),
-              const Padding(padding: EdgeInsets.symmetric(vertical: 20), child: AuthButton(buttonName: 'Sign Up')),
-              GestureDetector(
-                onTap: () => Navigator.pushReplacement(context, Routes.login()),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Already have account? ', style: Theme.of(context).textTheme.titleMedium),
-                    const SizedBox(width: 5),
-                    Text('Sign In',
+              Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  child: AuthButton(
+                    buttonName: 'Sign Up',
+                    onTap: () {
+                      if (formKey.currentState!.validate()) {
+                        context.read<AuthBloc>().add(
+                              AuthRegister(
+                                  name: nameController.text.trim(),
+                                  email: emailController.text.trim(),
+                                  password: passwordController.text.trim()),
+                            );
+                      }
+                    },
+                  )),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Already have account? ', style: Theme.of(context).textTheme.titleMedium),
+                  const SizedBox(width: 5),
+                  GestureDetector(
+                    onTap: () => Navigator.pushReplacement(context, Routes.login()),
+                    child: Text('Sign In',
                         style: Theme.of(context)
                             .textTheme
                             .titleMedium
                             ?.copyWith(color: AppPallete.gradient2, fontWeight: FontWeight.bold)),
-                  ],
-                ),
-              )
+                  ),
+                ],
+              ),
             ],
           ),
         ),
