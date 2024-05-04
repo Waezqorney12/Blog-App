@@ -1,21 +1,21 @@
-import 'package:blog_application/core/theme/theme.dart';
-import 'package:blog_application/features/auth/presentation/pages/signup_page.dart';
+import 'package:blog_application/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:blog_application/features/auth/presentation/dashboard.dart';
+import 'package:blog_application/init_dependencies.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initDependecies();
+  runApp(MultiBlocProvider(
+    providers: [
+      // BlocProvider(
+      //   create: (context) =>
+      //       AuthBloc(userRegister: UserRegister(AuthRepositoryImpl(AuthSupabaseDataSourceImpl(supabase.client)))),
+      // ) --> Dependency injection manually
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.darkMode,
-      home: const SignUpPage(),
-    );
-  }
+      BlocProvider(create: (_) => serviceLocator<AuthBloc>())
+    ],
+    child: const Dashboard(),
+  ));
 }
