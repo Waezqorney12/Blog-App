@@ -1,4 +1,6 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 class SupabaseConfig {
-  static const supabaseURL = 'Your Supabase URL';
-  static const supabaseAPI = 'Your Supabase API';
+  static final supabaseURL = dotenv.env['SupabaseURL'];
+  static final supabaseKey = dotenv.env['SupabaseKey'];
 }
