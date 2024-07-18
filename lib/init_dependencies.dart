@@ -1,8 +1,10 @@
+import 'package:blog_application/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:blog_application/core/config/supabase_config.dart';
 import 'package:blog_application/features/auth/data/datasource_impl/remote_datasource_impl.dart';
 import 'package:blog_application/features/auth/data/repository/auth_repository_implementation.dart';
 import 'package:blog_application/features/auth/domain/datasource/remote_datasource.dart';
 import 'package:blog_application/features/auth/domain/repository/auth_repository.dart';
+import 'package:blog_application/features/auth/domain/usecases/user_data.dart';
 import 'package:blog_application/features/auth/domain/usecases/user_login.dart';
 import 'package:blog_application/features/auth/domain/usecases/user_register.dart';
 import 'package:blog_application/features/auth/presentation/bloc/auth_bloc.dart';
@@ -18,33 +20,50 @@ Future<void> initDependecies() async {
     anonKey: SupabaseConfig.supabaseKey ?? 'No Key found',
   );
   serviceLocator.registerLazySingleton(() => supabase.client);
+
+  //Core
+  serviceLocator.registerLazySingleton(() => AppUserCubit());
 }
 
 void _initAuth() {
-  serviceLocator.registerFactory<RemoteDataSource>(
-    () => RemoteDataSourceImpl(
-      serviceLocator(),
-    ),
-  );
-  serviceLocator.registerFactory<AuthRepository>(
-    () => AuthRepositoryImpl(
-      serviceLocator(),
-    ),
-  );
-  serviceLocator.registerFactory(
-    () => UserLogin(
-      serviceLocator(),
-    ),
-  );
-  serviceLocator.registerFactory(
-    () => UserRegister(
-      serviceLocator(),
-    ),
-  );
-  serviceLocator.registerLazySingleton(
-    () => AuthBloc(
-      userRegister: serviceLocator(),
-      userLogin: serviceLocator(),
-    ),
-  );
+  serviceLocator
+    // Remote Data Source
+    ..registerFactory<RemoteDataSource>(
+      () => RemoteDataSourceImpl(
+        serviceLocator(),
+      ),
+    )
+    // Repository
+    ..registerFactory<AuthRepository>(
+      () => AuthRepositoryImpl(
+        serviceLocator(),
+      ),
+    )
+
+    // Use Cases
+    ..registerFactory(
+      () => UserLogin(
+        serviceLocator(),
+      ),
+    )
+    ..registerFactory(
+      () => UserData(
+        serviceLocator(),
+      ),
+    )
+    ..registerFactory(
+      () => UserRegister(
+        serviceLocator(),
+      ),
+    )
+
+    // State Management (Bloc)
+    ..registerLazySingleton(
+      () => AuthBloc(
+        userRegister: serviceLocator(),
+        userLogin: serviceLocator(),
+        userData: serviceLocator(),
+        appUserCubit: serviceLocator(),
+      ),
+    );
 }
