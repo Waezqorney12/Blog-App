@@ -28,9 +28,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         _appUserCubit = appUserCubit,
         // -------------------------------------
         super(AuthInitial()) {
+    // Loading state
+    on<AuthEvent>((_, emit) => emit(AuthLoading()));
     // User Register
     on<AuthRegister>((event, emit) async {
-      emit(AuthLoading());
       final response = await _userRegister(
         UserRegisterParameters(
           email: event.email,
@@ -45,7 +46,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
     // User Login
     on<AuthLogin>((event, emit) async {
-      emit(AuthLoading());
       final response = await _userLogin(
         UserLoginParams(
           email: event.email,
@@ -59,10 +59,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
     // Get Current User
     on<AuthGetUser>((event, emit) async {
-      emit(AuthLoading());
-      final response = await _userData(
-        NoParams(),
-      );
+      final response = await _userData(NoParams());
       response.fold(
         (failure) => emit(AuthFailure(message: failure.message)),
         (response) {
