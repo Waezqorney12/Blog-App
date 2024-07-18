@@ -9,6 +9,11 @@ class AppTheme {
   static final darkMode = ThemeData.dark().copyWith(
     appBarTheme: const AppBarTheme(backgroundColor: AppPallete.backgroundColor),
     scaffoldBackgroundColor: AppPallete.backgroundColor,
-    inputDecorationTheme: InputDecorationTheme(focusedBorder: _border(AppPallete.gradient2), enabledBorder: _border()),
+    inputDecorationTheme: InputDecorationTheme(
+      focusedBorder: _border(AppPallete.gradient2),
+      enabledBorder: _border(),
+      errorBorder: _border(AppPallete.errorColor),
+      focusedErrorBorder: _border(AppPallete.gradient2),
+    ),
   );
 }

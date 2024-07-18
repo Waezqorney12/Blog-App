@@ -4,3 +4,5 @@ import 'package:fpdart/fpdart.dart';
 abstract interface class UserCase<T, Params> {
   Future<Either<FailureMessage, T>> call(Params params);
 }
+
+class NoParams {}
