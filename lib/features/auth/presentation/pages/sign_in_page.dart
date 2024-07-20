@@ -1,6 +1,7 @@
 import 'package:blog_application/core/utils/show_snackbar.dart';
 import 'package:blog_application/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:blog_application/features/auth/presentation/routes/app_routes.dart';
+import 'package:blog_application/core/routes/app_routes.dart';
+import 'package:blog_application/features/auth/presentation/controller/sign_in_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,14 +18,18 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
-  final formKey = GlobalKey<FormState>();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  late final SignInController _controller;
+
+  @override
+  void initState() {
+    _controller = SignInController();
+    super.initState();
+  }
 
   @override
   void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
+    _controller.emailController.dispose();
+    _controller.passwordController.dispose();
     super.dispose();
   }
 
@@ -38,7 +43,7 @@ class _SignInPageState extends State<SignInPage> {
         builder: (context, state) {
           if (state is AuthLoading) const Loader();
           return Form(
-            key: formKey,
+            key: _controller.formKey,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Column(
@@ -50,31 +55,25 @@ class _SignInPageState extends State<SignInPage> {
                   ),
                   const SizedBox(height: 30),
                   AuthField(
-                    controller: emailController,
+                    controller: _controller.emailController,
                     hint: 'Email',
                     inputType: TextInputType.emailAddress,
                   ),
                   const SizedBox(height: 15),
                   AuthField(
-                    controller: passwordController,
+                    controller: _controller.passwordController,
                     hint: 'Password',
                     obscureText: true,
                   ),
                   Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 20),
-                      child: AuthButton(
-                        buttonName: 'Sign In',
-                        onTap: () {
-                          if (formKey.currentState!.validate()) {
-                            context.read<AuthBloc>().add(
-                                  AuthLogin(
-                                    email: emailController.text.trim(),
-                                    password: passwordController.text.trim(),
-                                  ),
-                                );
-                          }
-                        },
-                      )),
+                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    child: AuthButton(
+                      buttonName: 'Sign In',
+                      onTap: () {
+                        if (_controller.formKey.currentState!.validate()) _controller.login(context);
+                      },
+                    ),
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
