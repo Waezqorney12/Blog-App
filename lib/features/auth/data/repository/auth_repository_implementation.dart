@@ -1,13 +1,13 @@
 import 'package:blog_application/core/config/exception.dart';
 import 'package:blog_application/core/failure/failure_message.dart';
 import 'package:blog_application/core/utils/function_helper.dart';
-import 'package:blog_application/features/auth/domain/datasource/remote_datasource.dart';
+import 'package:blog_application/features/auth/domain/datasource/auth_remote_datasource.dart';
 import 'package:blog_application/core/common/entities/user_entities.dart';
 import 'package:blog_application/features/auth/domain/repository/auth_repository.dart';
 import 'package:fpdart/fpdart.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
-  final RemoteDataSource authSupabaseDataSource;
+  final AuthRemoteDataSource authSupabaseDataSource;
   AuthRepositoryImpl(this.authSupabaseDataSource);
   @override
   Future<Either<FailureMessage, UserEntities>> loginWithEmailPassword({

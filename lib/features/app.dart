@@ -1,6 +1,6 @@
 // ignore_for_file: curly_braces_in_flow_control_structures
 
-import 'package:blog_application/core/common/cubits/app_user/app_user_cubit.dart';
+import 'package:blog_application/features/auth/cubits/app_user/app_user_cubit.dart';
 import 'package:blog_application/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:blog_application/features/auth/presentation/pages/sign_in_page.dart';
 import 'package:blog_application/features/dashboard/presentation/dashboard.dart';

@@ -1,8 +1,8 @@
-import 'package:blog_application/core/common/cubits/app_user/app_user_cubit.dart';
+import 'package:blog_application/features/auth/cubits/app_user/app_user_cubit.dart';
 import 'package:blog_application/core/config/supabase_config.dart';
-import 'package:blog_application/features/auth/data/datasource_impl/remote_datasource_impl.dart';
+import 'package:blog_application/features/auth/data/datasource_impl/auth_remote_datasource_impl.dart';
 import 'package:blog_application/features/auth/data/repository/auth_repository_implementation.dart';
-import 'package:blog_application/features/auth/domain/datasource/remote_datasource.dart';
+import 'package:blog_application/features/auth/domain/datasource/auth_remote_datasource.dart';
 import 'package:blog_application/features/auth/domain/repository/auth_repository.dart';
 import 'package:blog_application/features/auth/domain/usecases/user_data.dart';
 import 'package:blog_application/features/auth/domain/usecases/user_login.dart';
@@ -28,8 +28,8 @@ Future<void> initDependecies() async {
 void _initAuth() {
   serviceLocator
     // Remote Data Source
-    ..registerFactory<RemoteDataSource>(
-      () => RemoteDataSourceImpl(
+    ..registerFactory<AuthRemoteDataSource>(
+      () => AuthRemoteDataSourceImpl(
         serviceLocator(),
       ),
     )

@@ -3,6 +3,8 @@ import 'package:blog_application/features/dashboard/controller/add_blog_controll
 import 'package:blog_application/features/dashboard/widget/blog_editor.dart';
 import 'package:flutter/material.dart';
 
+import '../../../core/utils/pick_image.dart';
+
 class AddBlogPage extends StatefulWidget {
   const AddBlogPage({super.key});
 
@@ -26,6 +28,15 @@ class _AddBlogPageState extends State<AddBlogPage> {
     super.dispose();
   }
 
+  void selectImage() async {
+    final image = await pickImage();
+    if (image != null) {
+      setState(() {
+        _controller.fileImage = image;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final widht = MediaQuery.of(context).size.width;
@@ -45,7 +56,9 @@ class _AddBlogPageState extends State<AddBlogPage> {
           child: Column(
             children: [
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  selectImage();
+                },
                 borderRadius: BorderRadius.circular(8),
                 child: Container(
                   width: widht,
@@ -54,17 +67,25 @@ class _AddBlogPageState extends State<AddBlogPage> {
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(color: AppPallete.borderColor),
                   ),
-                  child: const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.folder_open_rounded,
-                        size: 50,
-                      ),
-                      SizedBox(height: 20),
-                      Text('Select your image'),
-                    ],
-                  ),
+                  child: _controller.fileImage != null
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image.file(
+                            _controller.fileImage!,
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                      : const Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.folder_open_rounded,
+                              size: 50,
+                            ),
+                            SizedBox(height: 20),
+                            Text('Select your image'),
+                          ],
+                        ),
                 ),
               ),
               Padding(

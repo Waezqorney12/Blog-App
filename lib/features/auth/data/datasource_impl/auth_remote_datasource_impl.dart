@@ -3,11 +3,11 @@ import 'package:blog_application/core/utils/log.dart';
 import 'package:blog_application/features/auth/data/model/user_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../domain/datasource/remote_datasource.dart';
+import '../../domain/datasource/auth_remote_datasource.dart';
 
-class RemoteDataSourceImpl implements RemoteDataSource {
+class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final SupabaseClient supabaseClient;
-  RemoteDataSourceImpl(this.supabaseClient);
+  AuthRemoteDataSourceImpl(this.supabaseClient);
   @override
   Session? get currentSession => supabaseClient.auth.currentSession;
 
