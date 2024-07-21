@@ -1,3 +1,5 @@
+// ignore_for_file: curly_braces_in_flow_control_structures
+
 import 'package:blog_application/core/utils/show_snackbar.dart';
 import 'package:blog_application/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:blog_application/core/routes/app_routes.dart';
@@ -38,7 +40,14 @@ class _SignInPageState extends State<SignInPage> {
     return Scaffold(
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
-          if (state is AuthFailure) showSnackBar(context, state.message);
+          if (state is AuthFailure)
+            showSnackBar(context, state.message);
+          else if (state is AuthSuccess)
+            Navigator.pushAndRemoveUntil(
+              context,
+              Routes.dashboard(),
+              (route) => false,
+            );
         },
         builder: (context, state) {
           if (state is AuthLoading) const Loader();

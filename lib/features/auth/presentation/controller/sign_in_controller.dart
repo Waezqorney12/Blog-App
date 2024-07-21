@@ -9,11 +9,11 @@ class SignInController with ChangeNotifier {
   TextEditingController passwordController = TextEditingController();
 
   void login(BuildContext context) {
-    context.read<AuthBloc>().add(AuthLogin(
-          email: emailController.text.trim(),
-          password: passwordController.text.trim(),
-        ));
+    context.read<AuthBloc>().add(
+          AuthLogin(
+            email: emailController.text.trim(),
+            password: passwordController.text.trim(),
+          ),
+        );
   }
-
-  
 }

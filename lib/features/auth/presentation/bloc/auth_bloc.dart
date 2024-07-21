@@ -1,4 +1,4 @@
-import 'package:blog_application/features/auth/cubits/app_user/app_user_cubit.dart';
+import 'package:blog_application/features/cubits/app_user/app_user_cubit.dart';
 import 'package:blog_application/core/usecases/usecase_interface.dart';
 import 'package:blog_application/core/utils/log.dart';
 import 'package:blog_application/core/common/entities/user_entities.dart';
