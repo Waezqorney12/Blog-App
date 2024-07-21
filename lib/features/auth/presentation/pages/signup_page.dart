@@ -1,12 +1,14 @@
+// ignore_for_file: curly_braces_in_flow_control_structures
+
 import 'package:blog_application/core/common/widget/loader.dart';
 import 'package:blog_application/core/theme/app_pallete.dart';
 import 'package:blog_application/core/utils/show_snackbar.dart';
 import 'package:blog_application/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:blog_application/features/auth/presentation/routes/app_routes.dart';
+import 'package:blog_application/core/routes/app_routes.dart';
+import 'package:blog_application/features/auth/presentation/controller/sign_up_controller.dart';
 import 'package:blog_application/features/auth/presentation/widgets/auth_field.dart';
 import 'package:blog_application/features/auth/presentation/widgets/auth_gradient_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -17,16 +19,18 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  final formKey = GlobalKey<FormState>();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController nameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  late final SignUpController _controller;
+  @override
+  void initState() {
+    _controller = SignUpController();
+    super.initState();
+  }
 
   @override
   void dispose() {
-    emailController.dispose();
-    nameController.dispose();
-    passwordController.dispose();
+    _controller.emailController.dispose();
+    _controller.nameController.dispose();
+    _controller.passwordController.dispose();
     super.dispose();
   }
 
@@ -37,12 +41,19 @@ class _SignUpPageState extends State<SignUpPage> {
         padding: const EdgeInsets.symmetric(horizontal: 15),
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
-            if (state is AuthFailure) showSnackBar(context, state.message);
+            if (state is AuthFailure)
+              showSnackBar(context, state.message);
+            else if (state is AuthSuccess)
+              Navigator.pushAndRemoveUntil(
+                context,
+                Routes.dashboard(),
+                (route) => false,
+              );
           },
           builder: (context, state) {
             if (state is AuthLoading) return const Loader();
             return Form(
-              key: formKey,
+              key: _controller.formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -52,19 +63,19 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   const SizedBox(height: 30),
                   AuthField(
-                    controller: nameController,
+                    controller: _controller.nameController,
                     hint: 'Name',
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 15),
                     child: AuthField(
-                      controller: emailController,
+                      controller: _controller.emailController,
                       hint: 'Email',
                       inputType: TextInputType.emailAddress,
                     ),
                   ),
                   AuthField(
-                    controller: passwordController,
+                    controller: _controller.passwordController,
                     hint: 'Password',
                     obscureText: true,
                   ),
@@ -73,14 +84,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       child: AuthButton(
                         buttonName: 'Sign Up',
                         onTap: () {
-                          if (formKey.currentState!.validate()) {
-                            context.read<AuthBloc>().add(
-                                  AuthRegister(
-                                      name: nameController.text.trim(),
-                                      email: emailController.text.trim(),
-                                      password: passwordController.text.trim()),
-                                );
-                          }
+                          if (_controller.formKey.currentState!.validate()) _controller.signup(context);
                         },
                       )),
                   Row(

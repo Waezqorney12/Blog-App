@@ -25,4 +25,9 @@ class UserModel extends UserEntities {
       name: name ?? this.name,
     );
   }
+
+  /*
+  Doesn't need toJson because its already been created and handled
+  for more information can check out at the datasource 
+  */
 }

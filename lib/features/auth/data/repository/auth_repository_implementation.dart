@@ -1,20 +1,19 @@
-import 'package:blog_application/core/config/exception.dart';
 import 'package:blog_application/core/failure/failure_message.dart';
 import 'package:blog_application/core/utils/function_helper.dart';
-import 'package:blog_application/features/auth/domain/datasource/remote_datasource.dart';
+import 'package:blog_application/features/auth/domain/datasource/auth_remote_datasource.dart';
 import 'package:blog_application/core/common/entities/user_entities.dart';
 import 'package:blog_application/features/auth/domain/repository/auth_repository.dart';
 import 'package:fpdart/fpdart.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
-  final RemoteDataSource authSupabaseDataSource;
+  final AuthRemoteDataSource authSupabaseDataSource;
   AuthRepositoryImpl(this.authSupabaseDataSource);
   @override
   Future<Either<FailureMessage, UserEntities>> loginWithEmailPassword({
     required String email,
     required String password,
   }) async =>
-      helperApiCall<UserEntities>(
+      helperCall<UserEntities>(
         apiCall: <UserEntities>() async => await authSupabaseDataSource.loginWithEmailPassword(
           email: email,
           password: password,
@@ -27,7 +26,7 @@ class AuthRepositoryImpl implements AuthRepository {
     required String email,
     required String password,
   }) async =>
-      helperApiCall<UserEntities>(
+      helperCall<UserEntities>(
         apiCall: <UserEntities>() async => await authSupabaseDataSource.registerWithEmailPassword(
           name: name,
           email: email,
@@ -41,7 +40,7 @@ class AuthRepositoryImpl implements AuthRepository {
       final response = await authSupabaseDataSource.getUser();
       if (response == null) return left(FailureMessage('User not logged in'));
       return right(response);
-    } on ServerException catch (e) {
+    } catch (e) {
       return left(
         FailureMessage(e.toString()),
       );
