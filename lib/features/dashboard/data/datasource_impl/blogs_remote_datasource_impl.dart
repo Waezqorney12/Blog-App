@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:blog_application/core/config/exception.dart';
-import 'package:blog_application/core/utils/log.dart';
+import 'package:blog_application/core/utils/log_utils.dart';
 import 'package:blog_application/features/dashboard/data/model/blog_model.dart';
 import 'package:blog_application/features/dashboard/domain/datasource/blogs_remote_datasource.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

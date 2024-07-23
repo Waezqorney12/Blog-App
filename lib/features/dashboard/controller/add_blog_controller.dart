@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:blog_application/features/dashboard/presentation/bloc/blog_bloc.dart';
 import 'package:flutter/material.dart';
 
-import '../../../core/utils/pick_image.dart';
+import '../../../core/utils/pick_image_utils.dart';
 
 class AddBlogController {
   final formKey = GlobalKey<FormState>();
