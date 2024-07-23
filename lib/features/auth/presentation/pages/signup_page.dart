@@ -2,7 +2,7 @@
 
 import 'package:blog_application/core/common/widget/loader.dart';
 import 'package:blog_application/core/theme/app_pallete.dart';
-import 'package:blog_application/core/utils/show_snackbar.dart';
+import 'package:blog_application/core/utils/show_snackbar_utils.dart';
 import 'package:blog_application/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:blog_application/core/routes/app_routes.dart';
 import 'package:blog_application/features/auth/presentation/controller/sign_up_controller.dart';

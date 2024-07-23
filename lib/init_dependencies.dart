@@ -1,3 +1,4 @@
+import 'package:blog_application/core/network/connection_network.dart';
 import 'package:blog_application/features/cubits/app_user/app_user_cubit.dart';
 import 'package:blog_application/core/config/supabase_config.dart';
 import 'package:blog_application/features/auth/data/datasource_impl/auth_remote_datasource_impl.dart';
@@ -8,14 +9,17 @@ import 'package:blog_application/features/auth/domain/usecases/user_data.dart';
 import 'package:blog_application/features/auth/domain/usecases/user_login.dart';
 import 'package:blog_application/features/auth/domain/usecases/user_register.dart';
 import 'package:blog_application/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:blog_application/features/dashboard/data/datasource_impl/blogs_local_datasource_impl.dart';
 import 'package:blog_application/features/dashboard/data/datasource_impl/blogs_remote_datasource_impl.dart';
 import 'package:blog_application/features/dashboard/data/repository_impl/blogs_repository_impl.dart';
+import 'package:blog_application/features/dashboard/domain/datasource/blogs_local_datasource.dart';
 import 'package:blog_application/features/dashboard/domain/datasource/blogs_remote_datasource.dart';
 import 'package:blog_application/features/dashboard/domain/repository/blog_repository.dart';
 import 'package:blog_application/features/dashboard/domain/usecases/get_blog.dart';
 import 'package:blog_application/features/dashboard/domain/usecases/upload_blog.dart';
 import 'package:blog_application/features/dashboard/presentation/bloc/blog_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final serviceLocator = GetIt.instance;
@@ -30,10 +34,26 @@ Future<void> initDependecies() async {
 
   //Core
   serviceLocator.registerLazySingleton(() => AppUserCubit());
+
+  serviceLocator.registerFactory(() => InternetConnection());
+  serviceLocator.registerFactory<ConnectionNetwork>(
+    () => ConnectionNetworkImpl(
+      serviceLocator(),
+    ),
+  );
+
+  // Local Data Source
 }
 
 void _initAuth() {
   serviceLocator
+    // Local Data Source
+    // ..registerFactory<BlogLocalDatasource>(
+    //   () => BlogLocalDatasourceImpl(
+    //     serviceLocator(),
+    //   ),
+    // )
+
     // Remote Data Source
     ..registerFactory<BlogRemoteDatasource>(
       () => BlogRemoteDatasourceImpl(
@@ -53,6 +73,7 @@ void _initAuth() {
     )
     ..registerFactory<AuthRepository>(
       () => AuthRepositoryImpl(
+        serviceLocator(),
         serviceLocator(),
       ),
     )

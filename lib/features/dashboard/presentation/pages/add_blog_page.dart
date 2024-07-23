@@ -11,7 +11,7 @@ import 'package:blog_application/features/dashboard/widget/blog_editor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/utils/show_snackbar.dart';
+import '../../../../core/utils/show_snackbar_utils.dart';
 import '../bloc/blog_bloc.dart';
 
 class AddBlogPage extends StatefulWidget {

@@ -1,6 +1,6 @@
 // ignore_for_file: curly_braces_in_flow_control_structures
 
-import 'package:blog_application/core/utils/show_snackbar.dart';
+import 'package:blog_application/core/utils/show_snackbar_utils.dart';
 import 'package:blog_application/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:blog_application/core/routes/app_routes.dart';
 import 'package:blog_application/features/auth/presentation/controller/sign_in_controller.dart';

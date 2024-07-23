@@ -1,5 +1,4 @@
 import 'package:blog_application/features/auth/presentation/pages/signup_page.dart';
-import 'package:blog_application/features/dashboard/data/model/blog_model.dart';
 import 'package:blog_application/features/dashboard/domain/entities/blog_entities.dart';
 import 'package:blog_application/features/dashboard/presentation/pages/add_blog_page.dart';
 import 'package:blog_application/features/dashboard/presentation/pages/dashboard_page.dart';

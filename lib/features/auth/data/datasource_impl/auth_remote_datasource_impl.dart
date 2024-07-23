@@ -1,6 +1,6 @@
 import 'package:blog_application/core/config/exception.dart';
 import 'package:blog_application/core/failure/failure_message.dart';
-import 'package:blog_application/core/utils/log.dart';
+import 'package:blog_application/core/utils/log_utils.dart';
 import 'package:blog_application/features/auth/data/model/user_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

@@ -1,14 +1,15 @@
 import 'dart:io';
 
 import 'package:blog_application/core/failure/failure_message.dart';
-import 'package:blog_application/core/utils/function_helper.dart';
-import 'package:blog_application/core/utils/log.dart';
+import 'package:blog_application/core/utils/log_utils.dart';
 import 'package:blog_application/features/dashboard/data/model/blog_model.dart';
 import 'package:blog_application/features/dashboard/domain/datasource/blogs_remote_datasource.dart';
 import 'package:blog_application/features/dashboard/domain/entities/blog_entities.dart';
 import 'package:blog_application/features/dashboard/domain/repository/blog_repository.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:uuid/uuid.dart';
+
+import '../../../../core/utils/function_helper_utils.dart';
 
 class BlogRepositoryImpl implements BlogRepository {
   final BlogRemoteDatasource blogRemoteDatasource;
@@ -22,7 +23,7 @@ class BlogRepositoryImpl implements BlogRepository {
           required String userId,
           required List<String> categories}) async =>
       helperCall<BlogEntities>(
-        apiCall: <BlogEntities>() async {
+        apiCall: () async {
           BlogModel blogModel = BlogModel(
             id: const Uuid().v1(),
             userId: userId,
